@@ -10,4 +10,5 @@ public interface TrainService {
     List<Train> getAllTrains();
 
     Optional<Train> getTrainById(Long id);
+    List<Train> searchTrains(String source, String destination);
 }

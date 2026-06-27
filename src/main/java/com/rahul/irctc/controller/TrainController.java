@@ -27,4 +27,8 @@ public class TrainController {
     public Optional<Train> getTrainById(@PathVariable Long id){
         return trainService.getTrainById(id);
     }
+    @GetMapping("/search")
+    public List<Train> searchTrains(@RequestParam String source,@RequestParam String destination){
+        return trainService.searchTrains(source,destination);
+    }
 }

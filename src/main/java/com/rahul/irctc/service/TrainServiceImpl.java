@@ -29,4 +29,9 @@ public class TrainServiceImpl implements TrainService{
     public Optional<Train> getTrainById(Long id) {
         return trainRepository.findById(id);
     }
+
+    @Override
+    public List<Train> searchTrains(String source, String destination) {
+        return trainRepository.findBySourceAndDestination(source, destination);
+    }
 }
