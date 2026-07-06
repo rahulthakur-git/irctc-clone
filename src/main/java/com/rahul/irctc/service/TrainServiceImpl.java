@@ -11,13 +11,17 @@ import java.util.Optional;
 @Service
 public class TrainServiceImpl implements TrainService{
     private final TrainRepository trainRepository;
+    private final TrainScheduleService trainScheduleService;
 
-    public TrainServiceImpl(TrainRepository trainRepository) {
+    public TrainServiceImpl(TrainRepository trainRepository, TrainScheduleService trainScheduleService) {
         this.trainRepository = trainRepository;
+        this.trainScheduleService = trainScheduleService;
     }
 
     @Override
     public Train addTrain(Train train) {
+        Train savedTrain = trainRepository.save(train);
+        trainScheduleService.generateSchedules(savedTrain);
         return trainRepository.save(train);
     }
 
@@ -46,7 +50,7 @@ public class TrainServiceImpl implements TrainService{
             existingTrain.setSource(train.getSource());
             existingTrain.setDestination(train.getDestination());
             existingTrain.setTotalSeats(train.getTotalSeats());
-            existingTrain.setAvailableSeats(train.getAvailableSeats());
+
             return trainRepository.save(existingTrain);
         }
         throw new RuntimeException("Train not found ");

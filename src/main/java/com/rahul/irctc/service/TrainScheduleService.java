@@ -1,2 +1,7 @@
-package com.rahul.irctc.service;public interface TrainScheduleService {
+package com.rahul.irctc.service;
+
+import com.rahul.irctc.entity.Train;
+
+public interface TrainScheduleService {
+    public void generateSchedules(Train train);
 }

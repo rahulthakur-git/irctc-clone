@@ -1,5 +1,6 @@
 package com.rahul.irctc.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -7,7 +8,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
-import jakarta.persistence.FetchType;
+
 
 @Entity
 @Table(name = "Trains")
@@ -27,7 +28,9 @@ public class Train {
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<DayOfWeek> runningDays;
-    private List<TrainSchedule> schedule;
+    @OneToMany(mappedBy = "train")
+    @JsonManagedReference
+    private List<TrainSchedule> schedules;
 
 
 

@@ -1,10 +1,12 @@
 package com.rahul.irctc.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 @Entity
 @Table(name = "train_schedule")
+
 
 public class TrainSchedule {
     private GenerationType strategy;
@@ -13,6 +15,7 @@ public class TrainSchedule {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "train_id")
+    @JsonBackReference
     private Train  train;
     private LocalDate journeyDate;
     private Integer availableSeats;
