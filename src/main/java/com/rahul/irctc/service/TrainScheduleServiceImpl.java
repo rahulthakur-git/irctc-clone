@@ -23,15 +23,40 @@ public class TrainScheduleServiceImpl implements TrainScheduleService{
     @Override
     public void generateSchedules(Train train) {
         List<TrainSchedule> schedule = new ArrayList<>();
-        for(int i = 1; i<=90; i++){
+        for(int i = 1; i<=90; i++) {
 
             LocalDate journeyDate = LocalDate.now().plusDays(i);
-            if (train.getRunningDays().contains(journeyDate.getDayOfWeek())){
-                
+            if (train.getRunningDays().contains(journeyDate.getDayOfWeek())) {
+                TrainSchedule trainSchedule = new TrainSchedule();
+
+                trainSchedule.setTrain(train);
+                trainSchedule.setJourneyDate(journeyDate);
+                trainSchedule.setAvailableSeats(train.getTotalSeats());
+                trainSchedule.setStatus("AVAILABLE");
+
+                schedule.add(trainSchedule);
+
+
             }
+
         }
+        trainScheduleRepository.saveAll(schedule);
+
+    }
+
+    @Override
+    public List<TrainSchedule> searchTrains(String source,
+                                            String destination,
+                                            LocalDate journeyDate) {
+
+        return trainScheduleRepository
+                .findByJourneyDateAndTrain_SourceAndTrain_Destination(
+                        journeyDate,
+                        source,
+                        destination
+                );
+    }
 
     }
 
 
-}

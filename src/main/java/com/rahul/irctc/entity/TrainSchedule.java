@@ -2,14 +2,15 @@ package com.rahul.irctc.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 @Entity
 @Table(name = "train_schedule")
-
+@Data
 
 public class TrainSchedule {
-    private GenerationType strategy;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
