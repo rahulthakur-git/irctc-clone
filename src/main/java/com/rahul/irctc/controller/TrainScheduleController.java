@@ -1,4 +1,5 @@
 package com.rahul.irctc.controller;
+import com.rahul.irctc.dto.TrainSearchResponseDto;
 import com.rahul.irctc.entity.TrainSchedule;
 import com.rahul.irctc.service.TrainScheduleService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class TrainScheduleController {
         this.trainScheduleService = trainScheduleService;
     }
     @GetMapping("/search")
-    public List<TrainSchedule> searchTrain(
+    public List<TrainSearchResponseDto> searchTrain(
             @RequestParam String source,
             @RequestParam String destination,
             @RequestParam LocalDate journeyDate
