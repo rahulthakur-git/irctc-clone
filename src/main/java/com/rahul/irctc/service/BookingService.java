@@ -6,4 +6,5 @@ import com.rahul.irctc.dto.BookingResponseDto;
 
 public interface BookingService {
     BookingResponseDto bookTicket(BookingRequestDto bookingRequestDto);
+    BookingResponseDto cancelBooking(String pnr);
 }

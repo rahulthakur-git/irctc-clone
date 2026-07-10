@@ -3,10 +3,7 @@ package com.rahul.irctc.controller;
 import com.rahul.irctc.dto.BookingRequestDto;
 import com.rahul.irctc.dto.BookingResponseDto;
 import com.rahul.irctc.service.BookingService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/booking")
@@ -19,5 +16,9 @@ public class BookingController {
     @PostMapping
     public BookingResponseDto bookTicket(@RequestBody BookingRequestDto bookingRequestDto) {
         return bookingService.bookTicket(bookingRequestDto);
+    }
+    @PutMapping("/cancel/{pnr}")
+    public BookingResponseDto cancelBooking(@PathVariable String pnr){
+        return bookingService.cancelBooking(pnr);
     }
 }

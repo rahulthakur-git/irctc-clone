@@ -65,6 +65,39 @@ public class BookingServiceImpl implements BookingService{
 
         return response;
     }
+
+    @Override
+    public BookingResponseDto cancelBooking(String pnr) {
+        Booking booking = bookingRepository.findByPnr(pnr)
+                .orElseThrow(()-> new RuntimeException("Booking Not Found"));
+
+        if ("CANCELLED".equals(booking.getBookingStatus())){
+            throw new RuntimeException("Booking Already Cancelled ");
+        }
+
+        TrainSchedule trainSchedule = booking.getTrainSchedule();
+        trainSchedule.setAvailableSeats(
+                trainSchedule.getAvailableSeats()+booking.getNumberOfSeats()
+        );
+        booking.setBookingStatus("CANCELLED");
+        trainScheduleRepository.save(trainSchedule);
+        Booking updatedBooking = bookingRepository.save(booking);
+        BookingResponseDto response = new BookingResponseDto();
+        response.setPnr(updatedBooking.getPnr());
+        response.setPassengerName(updatedBooking.getPassengerName());
+        response.setTrainNumber(updatedBooking.getTrainSchedule().getTrain().getTrainNumber());
+        response.setTrainName(updatedBooking.getTrainSchedule().getTrain().getTrainName());
+        response.setSource(updatedBooking.getTrainSchedule().getTrain().getSource());
+        response.setDestination(updatedBooking.getTrainSchedule().getTrain().getDestination());
+        response.setJourneyDate(updatedBooking.getTrainSchedule().getJourneyDate());
+        response.setBookedSeats(updatedBooking.getNumberOfSeats());
+        response.setBookingStatus(updatedBooking.getBookingStatus());
+        response.setBookingDate(updatedBooking.getBookingDate());
+
+
+        return response;
+    }
+
     private final BookingRepository bookingRepository;
     private final TrainScheduleRepository trainScheduleRepository;
     public BookingServiceImpl(BookingRepository bookingRepository, TrainScheduleRepository trainScheduleRepository) {
