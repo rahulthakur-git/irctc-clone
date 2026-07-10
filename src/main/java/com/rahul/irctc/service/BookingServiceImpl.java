@@ -34,6 +34,7 @@ public class BookingServiceImpl implements BookingService{
         booking.setBookingDate(LocalDateTime.now());
 //        "Generate PNR number "
         String pnr = "PNR"+ System.currentTimeMillis();
+        booking.setPnr(pnr);
 //        "Reduce Seat Available "
         trainSchedule.setAvailableSeats(
                 trainSchedule.getAvailableSeats() - bookingRequestDto.getNumberOfSeats()
