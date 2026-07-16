@@ -1,6 +1,8 @@
 package com.rahul.irctc.security;
 
 import com.rahul.irctc.entity.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
@@ -21,5 +23,9 @@ public class JwtService {
                 .expiration(new Date(System.currentTimeMillis()+1000*60*60))
                 .signWith(key)
                 .compact();
+    }
+    public String extractUsername(String token){
+        Jws<Claims> claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
+        return claims.getPayload().getSubject();
     }
 }
