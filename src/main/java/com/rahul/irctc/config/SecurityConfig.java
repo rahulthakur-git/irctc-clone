@@ -23,11 +23,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth.requestMatchers(
+        .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
                 "/api/users/register",
                 "/api/auth/login",
                 "/api/trains/search"
-        ).permitAll().anyRequest().authenticated()).
+        ).permitAll()
+                .requestMatchers("/api/booking/**")
+                .hasRole("USER")
+                .requestMatchers("/api/admin/**")
+                .hasRole("ADMIN")
+                .requestMatchers("/api/super-admin/**")
+                .hasRole("SUPER_ADMIN")
+                .anyRequest().authenticated()).
         addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }

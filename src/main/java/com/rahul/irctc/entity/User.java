@@ -4,10 +4,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
+
+import com.rahul.irctc.enums.Role;
 
 @Getter
 @Setter
@@ -29,13 +32,18 @@ public class User implements UserDetails {
     private String phone;
     private String city;
     private String state;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     public User(){
 
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return List.of(
+                new SimpleGrantedAuthority(role.name())
+        );
     }
 
     @Override
@@ -62,4 +70,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

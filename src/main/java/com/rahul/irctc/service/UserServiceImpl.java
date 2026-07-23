@@ -1,6 +1,7 @@
 package com.rahul.irctc.service;
 
 import com.rahul.irctc.entity.User;
+import com.rahul.irctc.enums.Role;
 import com.rahul.irctc.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService{
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.ROLE_USER);
 
         return userRepository.save(user);
     }
